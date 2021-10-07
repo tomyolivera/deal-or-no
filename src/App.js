@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Col, Modal, ModalBody, ModalFooter, ModalHeader, Row } from 'reactstrap';
+import { Row, Col } from 'reactstrap';
+
 import Maletines from './components/Maletines';
-import { getRandom, searchInArray } from './global/helpers';
 import Precios from './components/Precios';
+import ModalOferta from './components/ModalOferta';
+
+import { calcularOferta, getRandom, searchInArray } from './global/helpers';
 
 function App() {
     const [maletines, setMaletines] = useState([]);
@@ -37,29 +40,19 @@ function App() {
     const [primerMaletin, setPrimerMaletin] = useState({});
     const [preciosUsados] = useState([]);
     const [jugadasRestantes, setJugadasRestantes] = useState(6);
+    const [ultimaJugadaRestante, setUltimaJugadaRestante] = useState(6);
     const [oferta, setOferta] = useState(0);
     const [loading, setLoading] = useState(true);
     const [modal, setModal] = useState(false);
 
-    const toggleModal = () => setModal(!modal);
+    const toggle = () => setModal(!modal);
 
     useEffect(() => {
-        if(jugadasRestantes > 0) return false;
+        if(jugadasRestantes > 0)
+            return false;
 
-        let preciosDeMaletinesSinAbrir = [];
-
-        maletines.forEach(({ precio, abierto }) => {
-            if(!abierto) preciosDeMaletinesSinAbrir.push(precio)
-        });
-
-        let suma = 0;
-
-        for (let i = 0; i < preciosDeMaletinesSinAbrir.length; i++)
-            suma += preciosDeMaletinesSinAbrir[i];
-
-        let promedio = suma / preciosDeMaletinesSinAbrir.length;
-
-        setOferta(promedio * 0.15);
+        calcularOferta(maletines, setOferta, toggle)
+        setJugadasRestantes(ultimaJugadaRestante - 1);
     }, [jugadasRestantes])
 
     useEffect(() => {        
@@ -78,18 +71,7 @@ function App() {
 
     return (
         <>
-            <Modal isOpen={modal} toggle={toggle} className={className}>
-                <ModalHeader toggle={toggle}>Modal title</ModalHeader>
-
-                <ModalBody>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                </ModalBody>
-
-                <ModalFooter>
-                    <Button color="primary" onClick={toggle}>Do Something</Button>{' '}
-                    <Button color="secondary" onClick={toggle}>Cancel</Button>
-                </ModalFooter>
-            </Modal>
+            <ModalOferta modal={modal} toggle={toggle} oferta={oferta} />
 
             <h1>Jugadas restantes antes de la oferta: { jugadasRestantes }</h1>
             <Row>
