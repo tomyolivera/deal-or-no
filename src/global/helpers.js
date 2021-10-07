@@ -23,8 +23,9 @@ export const calcularOferta = (maletines, setOferta, toggle) => {
     for (let i = 0; i < preciosDeMaletinesSinAbrir.length; i++)
         suma += preciosDeMaletinesSinAbrir[i];
 
-    let promedio = Math.floor(suma / preciosDeMaletinesSinAbrir.length * 0.15);
+    let promedio = suma / preciosDeMaletinesSinAbrir.length;
+    let oferta = Math.floor(promedio - promedio * 0.15);
 
-    setOferta(promedio);
+    setOferta(oferta);
     toggle();
 }

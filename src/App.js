@@ -53,6 +53,7 @@ function App() {
 
         calcularOferta(maletines, setOferta, toggle)
         setJugadasRestantes(ultimaJugadaRestante - 1);
+        setUltimaJugadaRestante(ultimaJugadaRestante - 1);
     }, [jugadasRestantes])
 
     useEffect(() => {        
