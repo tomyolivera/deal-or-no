@@ -1,24 +1,18 @@
 import React from 'react'
 import styled from 'styled-components'
 
-// #a8a80e
-
 const StyledPrecio = styled.div`
-    /* background: linear-gradient(120deg, yellow, gray, yellow); */
+    background: linear-gradient(120deg, #a8a80e, white, #a8a80e);
     border:1px solid black;
     display: flex;
     justify-content: space-between;
     color: #000;
     padding: 8px 12px;
     margin-bottom: 20px;
+    opacity: ${props => props.usado ? ".5" : ""};
     
     :hover{
-        /* background: linear-gradient(60deg, yellow, gray, yellow); */
-    }
-
-    .disabled{
-        background: #000;
-        opacity: 0.25;
+        background: linear-gradient(60deg, #a8a80e, #ccc, #a8a80e);
     }
 `
 
@@ -32,7 +26,7 @@ const Precios = ({ precios, start, end }) => {
         <>
             {
                 newArr.map((p, i) => (
-                    <StyledPrecio key={i} className={` ${p.usado ? "bg-danger" : ""} `}>
+                    <StyledPrecio key={i} usado={p.usado}>
                         $
                         <span>{ p.valor }</span>
                     </StyledPrecio>

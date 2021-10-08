@@ -15,16 +15,17 @@ export const calcularOferta = (maletines, setOferta, toggle) => {
     let preciosDeMaletinesSinAbrir = [];
 
     maletines.forEach(({ precio, abierto }) => {
-        if(!abierto) preciosDeMaletinesSinAbrir.push(precio)
+        if(!abierto)
+            preciosDeMaletinesSinAbrir.push(precio)
     });
 
     let suma = 0;
-
+    
     for (let i = 0; i < preciosDeMaletinesSinAbrir.length; i++)
         suma += preciosDeMaletinesSinAbrir[i];
-
+    
     let promedio = suma / preciosDeMaletinesSinAbrir.length;
-    let oferta = Math.floor(promedio - promedio * 0.15);
+    let oferta = Math.round(promedio - promedio * 0.15);
 
     setOferta(oferta);
     toggle();
