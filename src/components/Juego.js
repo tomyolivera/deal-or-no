@@ -41,15 +41,15 @@ function Juego() {
     ]);
     const [primerMaletin, setPrimerMaletin] = useState({});
     const [preciosUsados] = useState([]);
-    const [jugadasRestantes, setJugadasRestantes] = useState(7);
-    const [ultimaJugadaRestante, setUltimaJugadaRestante] = useState(7);
+    const [jugadasRestantes, setJugadasRestantes] = useState(6);
+    const [ultimaJugadaRestante, setUltimaJugadaRestante] = useState(6);
     const [oferta, setOferta] = useState(0);
     const [loading, setLoading] = useState(true);
     const [modal, setModal] = useState(false);
     const [dineroFinal, setDineroFinal] = useState(0);
     
     useEffect(() => {
-        if(jugadasRestantes > 1)
+        if(jugadasRestantes >= 1)
             return false;
 
         calcularOferta(maletines, setOferta, toggle)
@@ -73,14 +73,8 @@ function Juego() {
 
     const toggle = () => setModal(!modal);
 
-    const handleAcceptOferta = () => {
-        if(!window.confirm(`Estás seguro que querés aceptar la oferta de $${oferta}?`))
-            return false;
-
-        setDineroFinal(oferta);
-    }
+    const handleAcceptOferta = () => window.confirm(`Estás seguro que querés aceptar la oferta de $${oferta}?`) ? setDineroFinal(oferta) : false
        
-
     return (
         <div className="px-3">
             {
@@ -96,7 +90,7 @@ function Juego() {
                                             />
                     }
 
-                    <h1 className="text-center">Elige { cantMaletinesAbiertos >= 24 ? "el ultimo" : "un" } maletin</h1>
+                    <h1 className="text-center">Elige { cantMaletinesAbiertos >= 25 ? "el ultimo" : "un" } maletin</h1>
                     { cantMaletinesAbiertos < 24 && <h3 className="text-center">Jugadas restantes antes de la oferta: { jugadasRestantes >= 1 ? jugadasRestantes : 1 }</h3> }
 
                     <Row>

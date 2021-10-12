@@ -11,8 +11,10 @@ const Maletines = ({ maletines, setMaletines, precios, setPrecios, primerMaletin
                 ? false
                 : setPrimerMaletin(maletin);
 
-        if(primerMaletin === maletin)
-            return false;
+        if(cantMaletinesAbiertos <= 24){
+            if(primerMaletin.numero === maletin.numero)
+                return false;
+        }
 
         if(!window.confirm(`Estás seguro de que querés abrir el maletin numero: ${maletin.numero + 1}?`))
             return false;

@@ -1,11 +1,12 @@
 import React from 'react'
-import { Card, CardBody, CardHeader, CardFooter, Button } from 'reactstrap'
 import styled from 'styled-components';
 
 const Numero = styled.span`
     position: absolute;
-    color:#000;
-    margin-bottom:${props => props.abierto ? "70px" : "" };
+    margin-bottom:${props => props.abierto ? "50px" : "-15px" };
+    color:${props => props.abierto ? "#fff" : "#fff" };
+    background:${props => props.abierto ? "gray" : "" };
+    padding:0 8px;
     font-size: 28px;
     font-weight: bold;
     align-self: center;
@@ -13,9 +14,11 @@ const Numero = styled.span`
 
 const Precio = styled.span`
     position: absolute;
-    color:#000;
     font-size: 20px;
+    color: #fff;
+    background:orange;
     margin-top:50px;
+    padding:0 8px;
     font-weight: bold;
     align-self: center;
 `
@@ -25,13 +28,18 @@ const MaletinStyled = styled.div`
     justify-content: center;
     cursor: ${props => props.abierto ? "" : "pointer" };
     padding:10px;
-    background:${props => props.esPrimero ? "orange" : "" };
 `
 
 const Maletin = ({ numero, precio, abierto, abrirMaletin, primerMaletin, cantMaletinesAbiertos }) => {
     const esPrimerMaletin = primerMaletin.numero === numero;
 
     const handleOpenMaletinClick = () => {
+        if(primerMaletin.numero === numero){
+            if(cantMaletinesAbiertos <= 24)
+                return false;
+        }
+
+
         if(abierto)
             return false;
 
@@ -41,11 +49,13 @@ const Maletin = ({ numero, precio, abierto, abrirMaletin, primerMaletin, cantMal
         <MaletinStyled esPrimero={esPrimerMaletin} abierto={abierto} onClick={handleOpenMaletinClick}>
             <Numero abierto={abierto}>{ numero + 1 }</Numero>
             <Precio>{ abierto && <><span>$</span><span>{ precio }</span></> }</Precio>
-            {
-                abierto
-                    ? <img width="150px" src="https://http2.mlstatic.com/D_NQ_NP_2X_835629-MLA47059324655_082021-F.webp" />
-                    : <img width="150px" src="https://image.made-in-china.com/3f2j10jmLQTBlPEZce/Professional-High-Security-Lock-Custom-Briefcase-Aluminum-Tool-Box.webp" />
-            }
+            <img src={ abierto
+                            ? "http://assets.stickpng.com/images/59bf81267a216d0b052f12e4.png"
+                            : primerMaletin.numero === numero
+                                ? "http://assets.stickpng.com/images/59bf815f7a216d0b052f12e9.png"
+                                : "http://assets.stickpng.com/images/59bf81587a216d0b052f12e8.png"
+                        }
+                width="150px" />
         </MaletinStyled>
     )
 }
